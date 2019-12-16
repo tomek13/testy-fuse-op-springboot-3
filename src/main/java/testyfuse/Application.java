@@ -16,20 +16,25 @@
  */
 package testyfuse;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.endpoint.Server;
+import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 
+import java.util.Arrays;
+
 @SpringBootApplication
-// load regular Spring XML file from the classpath that contains the Camel XML DSL
 @ImportResource({"classpath:spring/camel-context.xml"})
 public class Application {
 
-    /**
-     * A main method to start this application.
-     */
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+
+
 
 }

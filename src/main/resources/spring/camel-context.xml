@@ -2,19 +2,49 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:camel="http://camel.apache.org/schema/spring"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:cxf="http://camel.apache.org/schema/cxf"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+ http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
 
-  <!-- Define a traditional camel context here -->
-  <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
-    <route id="simple-route">
+
+
+  <bean id="appInfoServiceImpl" class="testyfuse.AppInfoServiceImpl"/>
+
+<!--  <jaxrs:server  id="aaaa" address="127.0.0.1:8080" >-->
+<!--    <jaxrs:serviceBeans>-->
+<!--      <ref bean="appInfoServiceImpl"/>-->
+<!--    </jaxrs:serviceBeans>-->
+<!--    <jaxrs:providers>-->
+
+<!--    </jaxrs:providers>-->
+<!--  </jaxrs:server>-->
+
+  <cxf:cxfEndpoint
+          id="aaaa"
+          address="127.0.0.1:8080"
+          serviceClass="testyfuse.AppInfoServiceImpl"
+          loggingFeatureEnabled="true">
+  </cxf:cxfEndpoint>
+
+
+  <camelContext id="camel1" xmlns="http://camel.apache.org/schema/spring">
+    <route id="route1">
       <from id="route-timer" uri="timer:foo?period=2000"/>
-      <transform id="route-transform">
-        <method ref="myTransformer"/>
-      </transform>
-      <log id="route-log" message=">>> ${body}"/>
+
+      <log id="logowanie1" message="Nasluchiwanie...."/>
     </route>
+    <route id="route2">
+      <from id="routeFrom" uri="aaaa"/>
+
+      <log id="logowanie2" message="Nasluchiwanie...."/>
+    </route>
+
+
+
   </camelContext>
 
 </beans>

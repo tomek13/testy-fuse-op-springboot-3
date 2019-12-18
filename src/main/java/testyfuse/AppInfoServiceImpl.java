@@ -1,11 +1,11 @@
 package testyfuse;
 
 
-import io.swagger.annotations.Api;
+//import io.swagger.annotations.Api;
 
-@Api("/info")
+//@Api("/info")
 public class AppInfoServiceImpl implements AppInfoSevice {
-    public String version() {
+    public String wersja() {
         return "1.0-SNAPSHOT";
     }
 

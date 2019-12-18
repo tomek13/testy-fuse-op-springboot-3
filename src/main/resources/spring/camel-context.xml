@@ -2,33 +2,44 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:camel="http://camel.apache.org/schema/spring"
-       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
-       xmlns:cxf="http://camel.apache.org/schema/cxf"
+       xmlns:cxf="http://camel.apache.org/schema/cxf" xmlns:jaxrs="http://www.springframework.org/schema/c"
        xsi:schemaLocation="
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
- http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
-http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
+      http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
 
 
 
-  <bean id="appInfoServiceImpl" class="testyfuse.AppInfoServiceImpl"/>
+<!--  <bean id="appInfoServiceImpl" class="testyfuse.AppInfoServiceImpl"/>-->
 
-<!--  <jaxrs:server  id="aaaa" address="127.0.0.1:8080" >-->
-<!--    <jaxrs:serviceBeans>-->
-<!--      <ref bean="appInfoServiceImpl"/>-->
-<!--    </jaxrs:serviceBeans>-->
-<!--    <jaxrs:providers>-->
+  <cxf: id="aaaa" >
 
-<!--    </jaxrs:providers>-->
-<!--  </jaxrs:server>-->
 
-  <cxf:cxfEndpoint
-          id="aaaa"
-          address="127.0.0.1:8080"
-          serviceClass="testyfuse.AppInfoServiceImpl"
-          loggingFeatureEnabled="true">
-  </cxf:cxfEndpoint>
+  </cxf:>
+  <jaxrs:server  id="aaaa" address="0.0.0.0:8888" basePackages="testyfuse" >
+    <jaxrs:serviceBeans>
+      <bean class="testyfuse.AppInfoServiceImpl"/>
+    </jaxrs:serviceBeans>
+    <jaxrs:providers>
+
+    </jaxrs:providers>
+  </jaxrs:server>
+
+
+  <cxf:rsServer id="idEUKWKomponentCrepoRestServer" address="${int.proxy.http.address}/${int.esb.proxy.crepo.rest.inbound.path}"
+
+                serviceClass="pl.gov.ms.ekw.channel.rest.crepo.EUKWKomponentCrepoRestResourceImpl"
+                loggingFeatureEnabled="true" loggingSizeLimit="-1">
+    <cxf:providers>
+      <bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider" />
+    </cxf:providers>
+  </cxf:rsServer>
+<!--  <cxf:cxfEndpoint-->
+<!--          id="aaaa"-->
+<!--          address="127.0.0.1:8080"-->
+<!--          serviceClass="testyfuse.AppInfoServiceImpl"-->
+<!--          loggingFeatureEnabled="true">-->
+<!--  </cxf:cxfEndpoint>-->
 
 
   <camelContext id="camel1" xmlns="http://camel.apache.org/schema/spring">
@@ -37,11 +48,11 @@ http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.
 
       <log id="logowanie1" message="Nasluchiwanie...."/>
     </route>
-    <route id="route2">
-      <from id="routeFrom" uri="aaaa"/>
+<!--    <route id="route2">-->
+<!--      <from id="routeFrom" uri="cxfrs:bean:aaaa"/>-->
 
-      <log id="logowanie2" message="Nasluchiwanie...."/>
-    </route>
+<!--      <log id="logowanie2" message="Nasluchiwanie...."/>-->
+<!--    </route>-->
 
 
 
